@@ -14,6 +14,8 @@ const WORD_AFTER = ["l", "i", "o"];
 
 /** Shared easing so every hero element settles on the same curve. */
 const EASE = [0.16, 1, 0.3, 1] as const;
+/** Same curve the Selected work heading uses for its stadium "o" hover. */
+const PILL_EASE = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
   const reduce = useReducedMotion();
