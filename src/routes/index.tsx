@@ -4,7 +4,6 @@ import { About } from "@/components/about";
 import { Breakdown } from "@/components/breakdown";
 import { Contact } from "@/components/contact";
 import { Hero } from "@/components/hero";
-import { AnimatedChars } from "@/components/motion-text";
 import { ProjectSlide } from "@/components/project-slide";
 import { Reveal } from "@/components/reveal";
 import { Services } from "@/components/services";
@@ -45,13 +44,6 @@ function Index() {
                   <p className="text-xs font-semibold tracking-[0.2em] text-brand-orange uppercase">
                     Selected work
                   </p>
-                  <AnimatedChars
-                    as="h2"
-                    text="Portfolio"
-                    pillIndex={5}
-                    stagger={44}
-                    className="display-xl mt-4 block"
-                  />
                 </div>
                 <p className="sd-rise max-w-sm text-sm leading-relaxed text-muted-foreground">
                   EHR platforms, telehealth and remote monitoring, HL7/FHIR interoperability, and
