@@ -4,7 +4,6 @@ import { About } from "@/components/about";
 import { Breakdown } from "@/components/breakdown";
 import { Contact } from "@/components/contact";
 import { Hero } from "@/components/hero";
-import { AnimatedChars } from "@/components/motion-text";
 import { ProjectSlide } from "@/components/project-slide";
 import { Reveal } from "@/components/reveal";
 import { Services } from "@/components/services";
