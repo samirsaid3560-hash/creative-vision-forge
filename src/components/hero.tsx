@@ -3,90 +3,17 @@ import portraitTiny from "@/assets/portrait-dev-420.webp";
 import portraitSm from "@/assets/portrait-dev-640.webp";
 import portraitMd from "@/assets/portrait-dev-720.webp";
 import portrait from "@/assets/portrait-dev.webp";
-import { Magnetic } from "@/components/motion-text";
+import { AnimatedChars, Magnetic } from "@/components/motion-text";
 import { Parallax } from "@/components/reveal";
 import { tools } from "@/data/projects";
 
 const uniqueTools = Array.from(new Set(tools));
 
-const WORD_BEFORE = ["P", "o", "r", "t", "f"];
-const WORD_AFTER = ["l", "i", "o"];
-
 /** Shared easing so every hero element settles on the same curve. */
 const EASE = [0.16, 1, 0.3, 1] as const;
-/** Same curve the Selected work heading uses for its stadium "o" hover. */
-const PILL_EASE = [0.22, 1, 0.36, 1] as const;
 
 export function Hero() {
   const reduce = useReducedMotion();
-
-  // Parent orchestrates the stagger, so children don't each schedule
-  // their own delayed timer — one timeline, fewer wake-ups.
-  const wordmark: Variants = {
-    hidden: {},
-    show: {
-      transition: reduce
-        ? { duration: 0 }
-        : { delayChildren: 0.2, staggerChildren: 0.06 },
-    },
-    hover: {
-      transition: { staggerChildren: 0.02 },
-    },
-  };
-
-  // Transform + opacity only: both run on the compositor, so the giant
-  // display type never triggers layout or paint while it animates.
-  const letter: Variants = {
-    hidden: reduce ? { y: 0, opacity: 1 } : { y: "115%", opacity: 0 },
-    show: {
-      y: "0%",
-      opacity: 1,
-      transition: reduce ? { duration: 0 } : { duration: 0.9, ease: EASE },
-    },
-    hover: {
-      y: "0%",
-      opacity: 1,
-    },
-  };
-
-  // Hover now matches the "Portfolio" heading in the Selected work section:
-  // only the stadium "o" reacts, so the letters themselves hold still.
-  const letterO: Variants = {
-    hidden: reduce ? { y: 0, opacity: 1 } : { y: "115%", opacity: 0 },
-    show: {
-      y: "0%",
-      opacity: 1,
-      transition: reduce ? { duration: 0 } : { duration: 0.9, ease: EASE },
-    },
-    hover: {
-      y: "0%",
-      opacity: 1,
-      scaleX: 1,
-      scaleY: 1,
-    },
-  };
-
-  // The stadium "o" scales on the X axis instead of animating `width`,
-  // which used to force a layout pass on every frame of the headline.
-  // On hover it eases wider on the same curve/duration as the section
-  // heading's glyph (1.55em -> 2.1em, i.e. ~1.355x) with no vertical squash.
-  const pill: Variants = {
-    hidden: reduce ? { scaleX: 1, opacity: 1 } : { scaleX: 0.14, opacity: 0 },
-    show: {
-      scaleX: reduce ? 1 : [0.14, 1.1, 1],
-      opacity: 1,
-      transition: reduce
-        ? { duration: 0 }
-        : { duration: 1.05, ease: EASE, times: [0, 0.7, 1] },
-    },
-    hover: reduce
-      ? { scaleX: 1, scaleY: 1 }
-      : {
-          scaleX: 1.355,
-          scaleY: 1,
-          transition: { duration: 0.7, ease: PILL_EASE },
-        },
-  };
 
   const fadeUp = (delay: number, y = 16): Variants => ({
     hidden: reduce ? { opacity: 1, y: 0 } : { opacity: 0, y },
@@ -102,44 +29,14 @@ export function Hero() {
       <div className="relative mx-auto max-w-6xl">
         {/* Giant wordmark */}
         <h1 className="sr-only">Mostafa Samir — Healthcare Full-Stack Engineer Portfolio 2026</h1>
-        <motion.div
-          aria-hidden
-          className="flex w-full cursor-default items-center justify-center overflow-hidden font-display leading-[0.8] font-extrabold tracking-[-0.05em] text-foreground"
+        <AnimatedChars
+          as="div"
+          text="Portfolio"
+          pillIndex={5}
+          stagger={44}
+          className="flex w-full cursor-default items-center justify-center font-display leading-[0.8] font-extrabold tracking-[-0.05em] text-foreground"
           style={{ fontSize: "clamp(3.5rem, 15.5vw, 13rem)" }}
-          variants={wordmark}
-          initial="hidden"
-          animate="show"
-          whileHover="hover"
-        >
-          {WORD_BEFORE.map((c, i) => (
-            <span key={`b-${i}`} className="inline-block overflow-hidden pb-[0.06em]">
-              <motion.span
-                className={`inline-block transform-gpu ${c === "o" ? "origin-center" : ""}`}
-                variants={c === "o" ? letterO : letter}
-              >
-                {c}
-              </motion.span>
-            </span>
-          ))}
-
-          {/* The stadium "o" */}
-          <motion.span
-            className="mx-[0.06em] inline-block origin-center transform-gpu rounded-full border-[0.115em] border-current"
-            style={{ height: "0.52em", width: "1.05em" }}
-            variants={pill}
-          />
-
-          {WORD_AFTER.map((c, i) => (
-            <span key={`a-${i}`} className="inline-block overflow-hidden pb-[0.06em]">
-              <motion.span
-                className={`inline-block transform-gpu ${c === "o" ? "origin-center" : ""}`}
-                variants={c === "o" ? letterO : letter}
-              >
-                {c}
-              </motion.span>
-            </span>
-          ))}
-        </motion.div>
+        />
 
         <motion.p
           className="mx-auto mt-4 max-w-xl text-center text-sm text-muted-foreground sm:text-base"

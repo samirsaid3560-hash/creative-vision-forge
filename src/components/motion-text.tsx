@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type ElementType, type ReactNode } from "react";
+import { useEffect, useMemo, useRef, useState, type CSSProperties, type ElementType, type ReactNode } from "react";
 
 import { useInView } from "@/components/reveal";
 
@@ -185,10 +185,12 @@ export function AnimatedChars({
   delay = 0,
   stagger = 34,
   pillIndex,
+  style,
 }: {
   text: string;
   as?: ElementType;
   className?: string;
+  style?: CSSProperties;
   delay?: number;
   stagger?: number;
   /** Index of the character to render as the stadium glyph. */
@@ -198,7 +200,7 @@ export function AnimatedChars({
   const chars = [...text];
 
   return (
-    <Tag className={`glyph-host ${className} ${inView ? "char-in" : ""}`}>
+    <Tag className={`glyph-host ${className} ${inView ? "char-in" : ""}`} style={style}>
       <span ref={ref} aria-label={text}>
         {chars.map((char, i) =>
           char === " " ? (
