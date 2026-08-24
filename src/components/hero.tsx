@@ -3,7 +3,7 @@ import portraitTiny from "@/assets/portrait-dev-420.webp";
 import portraitSm from "@/assets/portrait-dev-640.webp";
 import portraitMd from "@/assets/portrait-dev-720.webp";
 import portrait from "@/assets/portrait-dev.webp";
-import { Magnetic } from "@/components/motion-text";
+import { AnimatedChars, Magnetic } from "@/components/motion-text";
 import { Parallax } from "@/components/reveal";
 import { tools } from "@/data/projects";
 
@@ -102,44 +102,14 @@ export function Hero() {
       <div className="relative mx-auto max-w-6xl">
         {/* Giant wordmark */}
         <h1 className="sr-only">Mostafa Samir — Healthcare Full-Stack Engineer Portfolio 2026</h1>
-        <motion.div
-          aria-hidden
-          className="flex w-full cursor-default items-center justify-center overflow-hidden font-display leading-[0.8] font-extrabold tracking-[-0.05em] text-foreground"
+        <AnimatedChars
+          as="div"
+          text="Portfolio"
+          pillIndex={5}
+          stagger={44}
+          className="flex w-full cursor-default items-center justify-center font-display leading-[0.8] font-extrabold tracking-[-0.05em] text-foreground"
           style={{ fontSize: "clamp(3.5rem, 15.5vw, 13rem)" }}
-          variants={wordmark}
-          initial="hidden"
-          animate="show"
-          whileHover="hover"
-        >
-          {WORD_BEFORE.map((c, i) => (
-            <span key={`b-${i}`} className="inline-block overflow-hidden pb-[0.06em]">
-              <motion.span
-                className={`inline-block transform-gpu ${c === "o" ? "origin-center" : ""}`}
-                variants={c === "o" ? letterO : letter}
-              >
-                {c}
-              </motion.span>
-            </span>
-          ))}
-
-          {/* The stadium "o" */}
-          <motion.span
-            className="mx-[0.06em] inline-block origin-center transform-gpu rounded-full border-[0.115em] border-current"
-            style={{ height: "0.52em", width: "1.05em" }}
-            variants={pill}
-          />
-
-          {WORD_AFTER.map((c, i) => (
-            <span key={`a-${i}`} className="inline-block overflow-hidden pb-[0.06em]">
-              <motion.span
-                className={`inline-block transform-gpu ${c === "o" ? "origin-center" : ""}`}
-                variants={c === "o" ? letterO : letter}
-              >
-                {c}
-              </motion.span>
-            </span>
-          ))}
-        </motion.div>
+        />
 
         <motion.p
           className="mx-auto mt-4 max-w-xl text-center text-sm text-muted-foreground sm:text-base"
