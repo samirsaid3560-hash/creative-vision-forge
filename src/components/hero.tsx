@@ -47,8 +47,8 @@ export function Hero() {
     },
   };
 
-  // Outer "o" letters stretch vertically on hover (overflow-hidden parent
-  // clips horizontal stretch, so scaleY keeps the effect inside bounds).
+  // Hover now matches the "Portfolio" heading in the Selected work section:
+  // only the stadium "o" reacts, so the letters themselves hold still.
   const letterO: Variants = {
     hidden: reduce ? { y: 0, opacity: 1 } : { y: "115%", opacity: 0 },
     show: {
@@ -57,15 +57,17 @@ export function Hero() {
       transition: reduce ? { duration: 0 } : { duration: 0.9, ease: EASE },
     },
     hover: {
-      scaleX: 0.85,
-      scaleY: 1.45,
-      transition: { type: "spring", stiffness: 300, damping: 15 },
+      y: "0%",
+      opacity: 1,
+      scaleX: 1,
+      scaleY: 1,
     },
   };
 
   // The stadium "o" scales on the X axis instead of animating `width`,
   // which used to force a layout pass on every frame of the headline.
-  // On hover it stretches horizontally while the outer o's stretch vertically.
+  // On hover it eases wider on the same curve/duration as the section
+  // heading's glyph (1.55em -> 2.1em, i.e. ~1.355x) with no vertical squash.
   const pill: Variants = {
     hidden: reduce ? { scaleX: 1, opacity: 1 } : { scaleX: 0.14, opacity: 0 },
     show: {
@@ -75,11 +77,13 @@ export function Hero() {
         ? { duration: 0 }
         : { duration: 1.05, ease: EASE, times: [0, 0.7, 1] },
     },
-    hover: {
-      scaleX: 1.55,
-      scaleY: 0.8,
-      transition: { type: "spring", stiffness: 300, damping: 15 },
-    },
+    hover: reduce
+      ? { scaleX: 1, scaleY: 1 }
+      : {
+          scaleX: 1.355,
+          scaleY: 1,
+          transition: { duration: 0.7, ease: PILL_EASE },
+        },
   };
 
   const fadeUp = (delay: number, y = 16): Variants => ({
