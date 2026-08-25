@@ -18,7 +18,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
 
   const duration = prefersReducedMotion ? 0 : 620;
   const spring = "cubic-bezier(0.22, 1.4, 0.36, 1)";
-  const next = theme === "light" ? "dark" : theme === "dark" ? "system" : "light";
+  const next = isDark ? "light" : "dark";
 
   const iconStyle = (active: boolean, from: string) => ({
     transform: active ? "rotate(0deg) scale(1) translateY(0)" : `${from} scale(0.35) translateY(6px)`,
@@ -30,8 +30,13 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
   });
 
   const btnRef = useRef<HTMLButtonElement>(null);
+  const busyRef = useRef(false);
 
   const handleClick = () => {
+    // Guard against a second click landing mid-View-Transition, which would
+    // queue a flip that visually cancels the first one.
+    if (busyRef.current) return;
+    busyRef.current = true;
     if (!prefersReducedMotion) setPulse((n) => n + 1);
 
     const doc = document as Document & {
@@ -40,6 +45,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
 
     if (prefersReducedMotion || typeof doc.startViewTransition !== "function") {
       toggle();
+      busyRef.current = false;
       return;
     }
 
@@ -61,6 +67,7 @@ export function ThemeToggle({ className = "" }: { className?: string }) {
 
     transition.finished.finally(() => {
       delete root.dataset["themeReveal"];
+      busyRef.current = false;
     });
   };
 

@@ -86,11 +86,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [theme, resolved, mounted]);
 
   const setTheme = useCallback((next: Theme) => setThemeState(next), []);
-  const toggle = useCallback(
-    () =>
-      setThemeState((t) => (t === "light" ? "dark" : t === "dark" ? "system" : "light")),
-    [],
-  );
+  // Always flip away from what is *currently visible*, so a single click always
+  // changes the appearance (a light->dark cycle through "system" used to look
+  // like a dead click whenever "system" already resolved to the same theme).
+  const toggle = useCallback(() => {
+    setThemeState((t) => {
+      const current: ResolvedTheme = t === "system" ? systemTheme() : t;
+      return current === "dark" ? "light" : "dark";
+    });
+  }, []);
 
   const value = useMemo(
     () => ({ theme, resolved, toggle, setTheme }),
