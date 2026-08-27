@@ -37,8 +37,8 @@ export function Hero() {
       {/* Thin frame rules */}
       <div className="pointer-events-none absolute inset-y-0 left-[4.5rem] hidden w-px bg-border md:block" />
 
-      {/* Vertical socials */}
-      <div className="absolute left-0 top-1/2 hidden -translate-y-1/2 flex-col items-center gap-6 pl-6 md:flex">
+      {/* Vertical socials — fixed so they stay visible while scrolling */}
+      <div className="fixed left-0 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center gap-6 pl-6 md:flex">
         {socials.map(({ Icon, label, href }) => (
           <a
             key={label}
