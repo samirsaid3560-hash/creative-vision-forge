@@ -32,7 +32,6 @@ export function Hero() {
           fetchPriority="high"
           className="size-full object-contain object-bottom"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/60 to-transparent" />
       </div>
 
       {/* Thin frame rules */}
