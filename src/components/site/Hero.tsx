@@ -34,8 +34,8 @@ export function Hero() {
         />
       </div>
 
-      {/* Thin frame rules */}
-      <div className="pointer-events-none absolute inset-y-0 left-[4.5rem] hidden w-px bg-border md:block" />
+      {/* Thin frame rules — fixed so the line stays visible while scrolling */}
+      <div className="pointer-events-none fixed inset-y-0 left-[4.5rem] z-30 hidden w-px bg-border md:block" />
 
       {/* Vertical socials — fixed so they stay visible while scrolling */}
       <div className="fixed left-0 top-1/2 z-40 hidden -translate-y-1/2 flex-col items-center gap-6 pl-6 md:flex">
